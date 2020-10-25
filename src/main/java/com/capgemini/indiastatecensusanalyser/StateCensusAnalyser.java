@@ -15,8 +15,8 @@ public class StateCensusAnalyser {
 
 	public int loadCensusData(String censusDataPath) throws CensusAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(censusDataPath));) {
-			Iterator<IndiaStateCensus> censusIterator = this.getCSVFileIterator(reader, IndiaStateCensus.class);
-			int noOfEntries = this.getCount(censusIterator);
+			Iterator<IndiaStateCensus> censusIterator = new OpenCSVBuilder().getCSVFileIterator(reader, IndiaStateCensus.class);
+			int noOfEntries = new OpenCSVBuilder().getCount(censusIterator);
 			BufferedReader br = new BufferedReader(new FileReader(censusDataPath));
 			String line = "";
 			int ctr = 0;
@@ -43,8 +43,8 @@ public class StateCensusAnalyser {
 
 	public int loadCodeData(String codeDataPath) throws CensusAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(codeDataPath));) {
-			Iterator<CSVStates> censusIterator = this.getCSVFileIterator(reader, CSVStates.class);
-			int noOfEntries = this.getCount(censusIterator);
+			Iterator<CSVStates> censusIterator = new OpenCSVBuilder().getCSVFileIterator(reader, CSVStates.class);
+			int noOfEntries = new OpenCSVBuilder().getCount(censusIterator);
 			BufferedReader br = new BufferedReader(new FileReader(codeDataPath));
 			String line = "";
 			int ctr = 0;
@@ -67,28 +67,5 @@ public class StateCensusAnalyser {
 			throw new CensusAnalyserException("Invalid File Path For Code Data",
 					CensusAnalyserException.ExceptionType.INVALID_FILE_PATH);
 		}
-	}
-
-	private <E> Iterator<E> getCSVFileIterator(Reader reader, Class csvClass)
-			throws CensusAnalyserException {
-		try {
-			CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<E>(reader);
-			csvToBeanBuilder.withType(csvClass);
-			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-			CsvToBean<E> csvToBean = csvToBeanBuilder.build();
-			return csvToBean.iterator();
-		} catch (IllegalStateException e) {
-			throw new CensusAnalyserException("Wrong class type",
-					CensusAnalyserException.ExceptionType.INVALID_CLASS_TYPE);
-		}
-	}
-	
-	private <E> int getCount(Iterator<E> iterator) {
-		int noOfEntries = 0;
-		while (iterator.hasNext()) {
-			noOfEntries++;
-			E censusData = iterator.next();
-		}
-		return noOfEntries;
 	}
 }
