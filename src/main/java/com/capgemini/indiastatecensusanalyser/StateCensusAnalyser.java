@@ -18,7 +18,15 @@ public class StateCensusAnalyser {
 			Reader reader = Files.newBufferedReader(Paths.get(censusDataPath));
 			CsvToBeanBuilder<CSVStates> csvToBeanBuilder = new CsvToBeanBuilder<CSVStates>(reader);
 			csvToBeanBuilder.withType(CSVStates.class);
+			csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
 			CsvToBean<CSVStates> csvToBean = csvToBeanBuilder.build();
+			BufferedReader br = new BufferedReader(new FileReader(censusDataPath));
+			String line = "";
+			while ((line = br.readLine()) != null) {
+				if (!line.contains(","))
+					throw new CensusAnalyserException("Invalid delimiter in csv file", ExceptionType.INVALID_DELIMITER);
+			}
+			br.close();
 			Iterator<CSVStates> censusIterator = csvToBean.iterator();
 			int noOfEntries = 0;
 			while (censusIterator.hasNext()) {
