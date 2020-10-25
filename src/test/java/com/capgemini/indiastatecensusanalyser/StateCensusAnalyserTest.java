@@ -15,23 +15,24 @@ public class StateCensusAnalyserTest {
 	public void init() {
 		stateCensusAnalyser = new StateCensusAnalyser();
 	}
-	@Test
-	public void givenCensusCSVFile_ReturnsCorrectNoOfEntries() throws CensusAnalyserException{
-		int noOfEntries = stateCensusAnalyser.loadCensusData(CENSUS_DATA_PATH);
-		assertEquals(29, noOfEntries);
-   }
 
 	@Test
-	public void givenIncorrectCSVFilePath_ThrowsCustomException(){
+	public void givenCensusCSVFile_ReturnsCorrectNoOfEntries() throws CensusAnalyserException {
+		int noOfEntries = stateCensusAnalyser.loadCensusData(CENSUS_DATA_PATH);
+		assertEquals(29, noOfEntries);
+	}
+
+	@Test
+	public void givenIncorrectCSVFilePath_ThrowsCustomException() {
 		try {
-			stateCensusAnalyser.loadCensusData(CENSUS_DATA_PATH+"123");
+			stateCensusAnalyser.loadCensusData(CENSUS_DATA_PATH + "123");
 		} catch (CensusAnalyserException e) {
 			assertEquals(CensusAnalyserException.ExceptionType.INVALID_FILE_PATH, e.type);
 		}
 	}
 
 	@Test
-	public void givenIncorrectDelimiter_ThrowsCustomException(){
+	public void givenIncorrectDelimiter_ThrowsCustomException() {
 		try {
 			System.out.println(stateCensusAnalyser.loadCensusData(CENSUS_DATA_PATH_INCORRECT_DELIMITER));
 		} catch (CensusAnalyserException e) {

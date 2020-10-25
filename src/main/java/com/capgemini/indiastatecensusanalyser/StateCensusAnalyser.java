@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 
 import com.capgemini.indiastatecensusanalyser.CensusAnalyserException.ExceptionType;
-
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
