@@ -5,9 +5,10 @@ import java.util.Iterator;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.exceptions.CsvException;
 
 public class OpenCSVBuilder<E> implements ICSVBuilder{
-	public Iterator<E> getCSVFileIterator(Reader reader, Class csvClass) throws CensusAnalyserException {
+	public Iterator<E> getCSVFileIterator(Reader reader, Class csvClass) throws CsvException {
 		try {
 			CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<E>(reader);
 			csvToBeanBuilder.withType(csvClass);
@@ -15,8 +16,7 @@ public class OpenCSVBuilder<E> implements ICSVBuilder{
 			CsvToBean<E> csvToBean = csvToBeanBuilder.build();
 			return csvToBean.iterator();
 		} catch (IllegalStateException e) {
-			throw new CensusAnalyserException("Wrong class type",
-					CensusAnalyserException.ExceptionType.INVALID_CLASS_TYPE);
+			throw new CsvException();
 		}
 	}
 }
