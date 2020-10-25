@@ -16,9 +16,14 @@ public class StateCensusAnalyserTest {
 	}
 
 	@Test
-	public void givenCensusCSVFile_ReturnsCorrectNoOfEntries() {
+	public void givenCensusCSVFile_ReturnsCorrectNoOfEntries() throws CensusAnalyserException {
 		int noOfEntries = stateCensusAnalyser.loadCensusData(censusDataPath);
 		assertEquals(7, noOfEntries);
+	}
+	
+	@Test(expected = CensusAnalyserException.class)
+	public void givenIncorrectCSVFilePath_ThrowsCustomException() throws CensusAnalyserException {
+		stateCensusAnalyser.loadCensusData(censusDataPath+"123");
 	}
 
 }
