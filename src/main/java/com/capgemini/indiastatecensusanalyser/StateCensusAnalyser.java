@@ -24,10 +24,13 @@ public class StateCensusAnalyser {
 			while (censusIterator.hasNext()) {
 				noOfEntries++;
 				CSVStates censusData = censusIterator.next();
+				System.out.println(censusData);
 			}
 			return noOfEntries;
 		} catch (IOException e) {
 			throw new CensusAnalyserException("Invalid CSV file location", ExceptionType.INVALID_FILE_PATH);
+		} catch (IllegalStateException e) {
+			throw new CensusAnalyserException("Invalid type", ExceptionType.INVALID_CLASS_TYPE);
 		}
 	}
 }
