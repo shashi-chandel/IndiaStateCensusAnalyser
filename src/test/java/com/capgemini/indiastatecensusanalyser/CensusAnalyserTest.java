@@ -78,7 +78,7 @@ public class CensusAnalyserTest {
 			stateCensusAnalyser.loadCodeData(STATE_CODE_DATA_PATH+"123");
 		} catch (CensusAnalyserException e) {
 			System.out.println(e.getMessage());
-			assertEquals(CodeAnalyserException.ExceptionType.INVALID_FILE_PATH, e.type);
+			assertEquals(CensusAnalyserException.ExceptionType.INVALID_FILE_PATH, e.type);
 		}
 	}
 	
@@ -88,7 +88,7 @@ public class CensusAnalyserTest {
 			stateCensusAnalyser.loadCodeData(STATE_CODE_DATA_PATH);
 		} catch (CensusAnalyserException e) {
 			System.out.println(e.getMessage());
-			assertEquals(CodeAnalyserException.ExceptionType.INVALID_CLASS_TYPE, e.type);
+			assertEquals(CensusAnalyserException.ExceptionType.INVALID_CLASS_TYPE, e.type);
 		}
 	}
 	
