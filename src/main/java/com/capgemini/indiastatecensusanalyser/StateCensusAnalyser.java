@@ -8,11 +8,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
+import com.capgemini.indiastatecensusanalyser.CensusAnalyserException.ExceptionType;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 public class StateCensusAnalyser {
-	public int loadCensusData(String censusDataPath) {
+	public int loadCensusData(String censusDataPath) throws CensusAnalyserException{
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(censusDataPath));
 			CsvToBeanBuilder<CSVStates> csvToBeanBuilder = new CsvToBeanBuilder<CSVStates>(reader);
@@ -26,8 +27,7 @@ public class StateCensusAnalyser {
 			}
 			return noOfEntries;
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new CensusAnalyserException("Invalid CSV file location", ExceptionType.INVALID_FILE_PATH);
 		}
-		return 0;
 	}
 }
