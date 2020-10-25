@@ -3,18 +3,19 @@ package com.capgemini.indiastatecensusanalyser;
 import com.opencsv.bean.CsvBindByName;
 
 public class IndiaStateCensus {
+	
 	@CsvBindByName (column = "State")
 	private String stateName;
-
+	
 	@CsvBindByName (column = "Population")
-	private String population;
-
+	private long population;
+	
 	@CsvBindByName (column = "AreaInSqKm")
-	private String area;
-
+	private int area;
+	
 	@CsvBindByName (column = "DensityPerSqKm")
-	private String density;
-
+	private int density;
+	
 	@Override
 	public String toString() {
 		return "IndiaStateCensus [stateName=" + stateName + ", population=" + population + ", area=" + area
