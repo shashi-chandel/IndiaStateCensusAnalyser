@@ -2,7 +2,7 @@ package com.capgemini.indiastatecensusanalyser;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class CSVStates {
+public class CSVStates {  
 	
 	@CsvBindByName(column = "SrNo")
 	private int serialNo;
