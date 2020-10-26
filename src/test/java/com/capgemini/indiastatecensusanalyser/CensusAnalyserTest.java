@@ -4,9 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+import com.google.gson.Gson;
 
 public class CensusAnalyserTest {
-	private static final String CENSUS_DATA_PATH = ".\\src\\main\\java\\com\\capgemini\\resources\\IndiaStateCensusData.csv";
+	private static final String CENSUS_DATA_PATH = "C:\\Users\\shashi7\\eclipse-workspace\\indiastatecensusanalyser\\src\\main\\java\\com\\capgemini\\resources\\IndiaStateCensusData.csv";
 	private static final String CENSUS_DATA_PATH_INCORRECT_DELIMITER = ".\\src\\main\\java\\com\\capgemini\\resources\\IndiaStateCensusDataIncorrectDelimiter.csv";
 	private static final String CENSUS_DATA_PATH_INCORRECT_HEADER = ".\\src\\main\\java\\com\\capgemini\\resources\\IndiaStateCensusDataIncorrectHeader.csv";
 	private static final String STATE_CODE_DATA_PATH = ".\\src\\main\\java\\com\\capgemini\\resources\\IndiaStateCode.csv";
@@ -21,9 +22,9 @@ public class CensusAnalyserTest {
 	}
 	
 	@Test
-	public void givenIncorrectCSVFilePath_ThrowsCensusAnalyserExceptionOfTypeInvalidFilePath(){
+	public void givenIncorrectCSVFilePath_ThrowsCensusAnalyserExceptionOfTypeInvalidFilePath() {
 		try {
-			stateCensusAnalyser.loadCensusData(CENSUS_DATA_PATH+"123");
+			stateCensusAnalyser.loadCensusData(CENSUS_DATA_PATH + "123");
 		} catch (CensusAnalyserException e) {
 			System.out.println(e.getMessage());
 			assertEquals(CensusAnalyserException.ExceptionType.INVALID_FILE_PATH, e.type);
@@ -74,5 +75,14 @@ public class CensusAnalyserTest {
 			System.out.println(e.getMessage());
 			assertEquals(CensusAnalyserException.ExceptionType.INVALID_HEADER, e.type);
 		}
+	}
+	
+	@Test
+	public void givenIndianCensusData_WhenSortedOnState_ShouldReturnSortedResult() throws CensusAnalyserException {
+		String sortedCensusData = "";
+		stateCensusAnalyser.loadCensusData(CENSUS_DATA_PATH);
+		sortedCensusData = stateCensusAnalyser.getStateWiseSortedCensusData();
+		IndiaStateCensus[] censusData = new Gson().fromJson(sortedCensusData, IndiaStateCensus[].class);
+		assertEquals("Andhra Pradesh", censusData[0].getStateName());
 	}
 }
