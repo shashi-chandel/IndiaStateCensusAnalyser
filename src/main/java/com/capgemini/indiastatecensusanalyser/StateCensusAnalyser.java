@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 
 public class StateCensusAnalyser {
 	List<IndiaStateCensus> censusCSVList = null;
+	List<CSVStates> codeCSVList = null;
 	
 	public int loadCensusData(String censusDataPath) throws CensusAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(censusDataPath));) {
@@ -55,7 +56,6 @@ public class StateCensusAnalyser {
 	public int loadCodeData(String codeDataPath) throws CensusAnalyserException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(codeDataPath));) {
 			ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-			List<CSVStates> codeCSVList = null;
 			try {
 				codeCSVList = csvBuilder.getCSVFileList(reader, CSVStates.class);
 			} catch (CsvException e) {
@@ -93,5 +93,15 @@ public class StateCensusAnalyser {
 				.collect(Collectors.toList());
 		String sortedCensusDataJson = new Gson().toJson(sortedList);
 		return sortedCensusDataJson;
+	}
+	
+	public String getCodeWiseSortedCodeData() throws CensusAnalyserException {
+		if(codeCSVList==null||codeCSVList.size()==0)
+			throw new CensusAnalyserException("No Code Data", ExceptionType.NO_CODE_DATA);
+		List<CSVStates> sortedList = codeCSVList.stream()
+				.sorted(Comparator.comparing(CSVStates::getStateCode))
+				.collect(Collectors.toList());
+		String sortedCodeDataJson = new Gson().toJson(sortedList);
+		return sortedCodeDataJson;
 	}
 }
